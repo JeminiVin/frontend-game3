@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 export default function DiceGame() {
   const [username, setUsername] = useState("player1");
@@ -14,7 +15,7 @@ export default function DiceGame() {
   }, [username]);
 
   const fetchBalance = async () => {
-    const res = await axios.get(`http://localhost:5000/api/auth/balance/${username}`);
+    const res = await axios.get(`${API_BASE_URL}/api/auth/balance/${username}`);
     setBalance(res.data.balance);
   };
 
@@ -24,7 +25,7 @@ export default function DiceGame() {
       return;
     }
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/roll-dice", { username, betAmount });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/roll-dice`, { username, betAmount });
       setRollResult(res.data.roll);
       setBalance(res.data.newBalance);
       setMessage(res.data.win ? "You won!" : "You lost!");
